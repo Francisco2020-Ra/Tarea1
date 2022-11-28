@@ -69,7 +69,7 @@ public class Main {
                             if(arbolBinario.find(elemento) == false){
                                 JOptionPane.showMessageDialog(null, "Nodo no encontrado", "¡No encontrado!", JOptionPane.INFORMATION_MESSAGE);
                             }else {
-                                System.out.println("Encontrado, sus dotos son: " + arbolBinario.find(elemento));
+                                System.out.println("Encontrado, sus datos son: " + arbolBinario.find(elemento));
                             };
 
                         }else{

@@ -165,46 +165,58 @@ public class BinarySearchTree {
 	}
 
 	/*--------------------------------Agregando Nodos y nombre al arbol ----------------------------*/
+	Stack <Integer> bst=new Stack<>();
 	public void add(int dato) {
 		// este metodo agrega el valor k al arbol y retorna true si el valor no estaba.
 		// Si ya estaba, retorna false.
 
+
 		BinTreeNode nuevo = new BinTreeNode(dato);
-		Stack <BinTreeNode> bst=new Stack<>();
-		bst.push(nuevo);
-
-		for (BinTreeNode valor : bst) {
-			System.out.println(valor.dato);
-		}
-
 
 		if(root == null){
-			root = nuevo;
-		}else {
-			//Esta condicion verifica que no se puedan ingresar dos veces el mismo valor
-			if(!find(dato)) {
-				BinTreeNode temporal = root; //--> = 2
-				BinTreeNode padre; // --> null
-				while (true) {
-					padre = temporal; // --> 2
-					if (dato < temporal.dato) {
-						temporal = temporal.left;
-						if (temporal == null) {
-							padre.left = nuevo;
-							return;
-						}
-					} else {
-						temporal = temporal.right;
-						if (temporal == null) {
-							padre.right = nuevo;
-							return;
+				root = nuevo;
+				bst.push(dato);
+			}else {
+				//Esta condicion verifica que no se puedan ingresar dos veces el mismo valor
+				if(!find(dato)) {
+
+					bst.push(dato);
+
+					BinTreeNode temporal = root; //--> = 2
+					BinTreeNode padre; // --> null
+					while (true) {
+						padre = temporal; // --> 2
+						if (dato < temporal.dato) {
+							temporal = temporal.left;
+							if (temporal == null) {
+								padre.left = nuevo;
+								for (Integer valor : bst) {
+									System.out.println("pila: " + valor);
+								}
+								return;
+							}
+							for (Integer valor : bst) {
+								System.out.println("pila: " + valor);
+							}
+						} else {
+							temporal = temporal.right;
+							if (temporal == null) {
+								padre.right = nuevo;
+								for (Integer valor : bst) {
+									System.out.println("pila: " + valor);
+								}
+								return;
+							}
 						}
 					}
+
 				}
-			}
-
-
 		}
+
+		for (Integer valor : bst) {
+			System.out.println("pila: " + valor);
+		}
+
 		/*--------------------------------------------------*/
 		/*BinTreeNode padre=null;
 		BinTreeNode temporall=root;
