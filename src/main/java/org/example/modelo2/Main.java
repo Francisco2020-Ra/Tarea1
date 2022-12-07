@@ -1,13 +1,17 @@
-package org.example;
+package org.example.modelo2;
 
 import javax.swing.*;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    private static final Scanner sc = new Scanner(System.in);
 
-        int opcion = 0, elemento;
-        String nombre;
-        BinarySearchTree arbolBinario = new BinarySearchTree();
+    public static void main(String[] args) {
+        int opcion = 0, elemento = 0;
+        BinarySearchTree arbolSearch = new BinarySearchTree();
+        BinTreeNode root = null;
+        BinTreeNode arbolBinario;
+
         do{
             try{
                 opcion = Integer.parseInt( JOptionPane.showInputDialog(null,
@@ -19,20 +23,21 @@ public class Main {
                                 + "6. Eliminar un Nodo del Arbol\n"
                                 + "7. Es Binario Arbol?\n"
                                 + "8. Salir\n"
-                + "Elige Una Opción ...", "Árboles Binarios", JOptionPane.QUESTION_MESSAGE));
+                                + "Elige Una Opción ...", "Árboles Binarios", JOptionPane.QUESTION_MESSAGE));
 
                 switch (opcion){
                     case 1:
-                        elemento = Integer.parseInt(JOptionPane.showInputDialog(null,
-                                "Ingresar el número del Nodo", "Agregando Nodo", JOptionPane.QUESTION_MESSAGE));
-                        arbolBinario.add(elemento);
+                            System.out.println("Ingresar el número del Nodo");
+                            elemento = sc.nextInt();
+                            arbolBinario = new BinTreeNode(elemento);
+                            root = arbolSearch.add(root, arbolBinario);
                         break;
                     case 2:
                         //Si no esta vacio lo recorre
-                        if(!arbolBinario.estaVacio()){
+                        if(!arbolSearch.estaVacio(root)){
                             System.out.println();
                             //recorre la raiz, la cual la pasamos por parametros
-                            arbolBinario.inOrden(arbolBinario.root);
+                            arbolSearch.inOrden(root);
                         }else {
                             JOptionPane.showMessageDialog(null, "El árbol esta vacio",
                                     "Fin", JOptionPane.INFORMATION_MESSAGE);
@@ -40,10 +45,10 @@ public class Main {
                         break;
                     case 3:
                         //Si no esta vacio lo recorre
-                        if(!arbolBinario.estaVacio()){
+                        if(!arbolSearch.estaVacio(root)){
                             System.out.println();
                             //recorre la raiz, la cual la pasamos por parametros
-                            arbolBinario.preOrden(arbolBinario.root);
+                            arbolSearch.preOrden(root);
                         }else {
                             JOptionPane.showMessageDialog(null, "El árbol esta vacio",
                                     "Fin", JOptionPane.INFORMATION_MESSAGE);
@@ -51,10 +56,10 @@ public class Main {
                         break;
                     case 4:
                         //Si no esta vacio lo recorre
-                        if(!arbolBinario.estaVacio()){
+                        if(!arbolSearch.estaVacio(root)){
                             System.out.println();
                             //recorre la raiz, la cual la pasamos por parametros
-                            arbolBinario.postOrden(arbolBinario.root);
+                            arbolSearch.postOrden(root);
                         }else {
                             JOptionPane.showMessageDialog(null, "El árbol esta vacio",
                                     "Fin", JOptionPane.INFORMATION_MESSAGE);
@@ -62,42 +67,35 @@ public class Main {
 
                         break;
                     case 5:
-                        if(!arbolBinario.estaVacio()){
-                            elemento = Integer.parseInt(JOptionPane.showInputDialog(null,
-                                    "Ingresa el Número del Nodo Buscado...", "Buscando Nodo",
-                                    JOptionPane.QUESTION_MESSAGE));
-                            if(arbolBinario.find(elemento) == false){
-                                JOptionPane.showMessageDialog(null, "Nodo no encontrado", "¡No encontrado!", JOptionPane.INFORMATION_MESSAGE);
+                        if(!arbolSearch.estaVacio(root)){
+                            System.out.println("Ingresa el Número del Nodo Buscado...");
+                            elemento = sc.nextInt();
+
+                            if(arbolSearch.treeSearch(root,elemento) == null){
+                                System.out.println("Nodo no encontrado");
                             }else {
-                                System.out.println("Encontrado, sus datos son: " + arbolBinario.find(elemento));
+                                System.out.println("Encontrado, sus datos son: " + arbolSearch.treeSearch(root,elemento).dato);
                             };
 
                         }else{
-                            JOptionPane.showMessageDialog(null, "El Árbol esta vacio", "!Cuidado¡", JOptionPane.INFORMATION_MESSAGE);
+                            System.out.println("El Árbol esta vacio");
                         }
                         break;
                     case 6:
-                        if(!arbolBinario.estaVacio()){
-                            elemento = Integer.parseInt(JOptionPane.showInputDialog(null,
-                                    "Ingresa el Número del Nodo a eliminar...", "Eliminando Nodo",
-                                    JOptionPane.QUESTION_MESSAGE));
-                            if(arbolBinario.remove(elemento) == false){
-                                JOptionPane.showMessageDialog(null, "Nodo no encontrado",
-                                        "¡No encontrado!", JOptionPane.INFORMATION_MESSAGE);
-                            }else {
-                                JOptionPane.showMessageDialog(null, "El Nodo ha sido eliminado del Árbol",
-                                        "¡No eliminado!", JOptionPane.INFORMATION_MESSAGE);
-                            };
-
+                        if(!arbolSearch.estaVacio(root)){
+                            System.out.println("Ingresa el Número del Nodo a eliminar...");
+                            elemento = sc.nextInt();
+                            arbolBinario = arbolSearch.treeSearch(root, elemento);
+                            root = arbolSearch.TreeDelete(root, arbolBinario);
                         }else{
-                            JOptionPane.showMessageDialog(null, "El Árbol esta vacio", "!Cuidado¡", JOptionPane.INFORMATION_MESSAGE);
+                            System.out.println("El Árbol esta vacio");
                         }
 
                         break;
                     case 7:
-                        if(!arbolBinario.estaVacio()){
+                        if(!arbolSearch.estaVacio(root)){
 
-                            if(arbolBinario.repOK()){
+                            if(arbolSearch.repOK(root)){
                                 JOptionPane.showMessageDialog(null, "Arbol no Binario",
                                         "¡No Binario!", JOptionPane.INFORMATION_MESSAGE);
                             }else {
@@ -120,6 +118,9 @@ public class Main {
             }catch (NumberFormatException n){
                 JOptionPane.showMessageDialog(null, "Error " + n.getMessage());
             }
-        }while(opcion!=8);
+
+        }while(true);
     }
+
+
 }

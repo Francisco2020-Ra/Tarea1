@@ -1,4 +1,4 @@
-package org.example;
+package org.example.modelo1;
 
 import java.util.Stack;
 

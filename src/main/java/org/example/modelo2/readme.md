@@ -1,0 +1,1 @@
+Si "y" no es el hijo izquierdo de z, las líneas 7-9 reemplazan "y" como un hijo de su padre por "y" hijo derecho y convierten el hijo derecho de z en el hijo derecho de y, y luego las líneas 10-12 reemplazan ´ como un hijo de su padre por y y reemplazar el hijo izquierdo de y por el hijo izquierdo de z.
