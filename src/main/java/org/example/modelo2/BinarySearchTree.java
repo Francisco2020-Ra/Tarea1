@@ -60,7 +60,7 @@ public class BinarySearchTree {
 				x = x.right;
 			}
 		}
-		//z.left = y;
+		z.parent = y;
 		if (y == null) {
 			T = z;
 		} else if (z.dato < y.dato) {
@@ -82,7 +82,6 @@ public class BinarySearchTree {
 		return false;
 	}
 
-
 	public BinTreeNode TreeDelete(BinTreeNode root, BinTreeNode z) {
 		if(z.left == null){
 			root = Transplant(root, z, z.right);
@@ -90,13 +89,14 @@ public class BinarySearchTree {
 			root = Transplant(root,z,z.left);
 		}else {
 			BinTreeNode y = TreeMinimun(z.right);
-			if (y != z.left){
+			if (y.parent != z){
 				root = Transplant(root, y, y.right);
-				z = y;
+				y.right = z.right;
+				y.right.parent = y;
 			}
 			root = Transplant(root,z,y);
 			y.left = z.left;
-			y.left = y;
+			y.left.parent = y;
 		}
 		return root;
 	}
@@ -107,19 +107,17 @@ public class BinarySearchTree {
 		return x;
 	}
 	public BinTreeNode Transplant(BinTreeNode root, BinTreeNode u, BinTreeNode v){
-		if(u == null){
+		if(u.parent == null){
 			root = v;
-		}else if(u == u.left){
-			u.left = v;
+		}else if(u == u.parent.left){
+			u.parent.left = v;
 		}else{
-			u = v;
+			u.parent.right = v;
 		}
 
 		if(v != null){
-			v = u;
+			v.parent = u.parent;
 		}
 		return root;
 	}
-
-
 }
